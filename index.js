@@ -102,7 +102,7 @@ async function run() {
       throw `Could not find bundleIdentifier ${bundleIdentifier} on Developer Portal. Please check it on https://developer.apple.com/account/resources/identifiers/list`;
     }
     const bundleIdResponse2 = await get("https://api.appstoreconnect.apple.com/v1/bundleIds", { "filter[identifier]": bundleIdentifier2 }, token); // BundleIdsResponse Type
-    const bundleId = bundleIdResponse2.data.find(element => element.attributes.identifier == bundleIdentifier2);
+    const bundleId2 = bundleIdResponse2.data.find(element => element.attributes.identifier == bundleIdentifier2);
     
     if (bundleId2) {
       const profileIds = await get(`https://api.appstoreconnect.apple.com/v1/bundleIds/${bundleId.id}/relationships/profiles`, { }, token);  
