@@ -101,6 +101,7 @@ async function run() {
     } else {
       throw `Could not find bundleIdentifier ${bundleIdentifier} on Developer Portal. Please check it on https://developer.apple.com/account/resources/identifiers/list`;
     }
+    console.log("starting job #2 for bundle id 2");
     const bundleIdResponse2 = await get("https://api.appstoreconnect.apple.com/v1/bundleIds", { "filter[identifier]": bunldeIdentifier2 }, token); // BundleIdsResponse Type
     const bundleId2 = bundleIdResponse2.data.find(element => element.attributes.identifier == bunldeIdentifier2);
     
