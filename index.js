@@ -67,7 +67,7 @@ async function run() {
     const base64ExtensionP12File = core.getInput(`base64ExtensionP12File`);
     const p12Password = core.getInput(`p12Password`);
     const bundleIdentifier = core.getInput(`bundleIdentifier`);
-    const bunldeIdentifier2 = "tech.metric.APNSExtension";
+    const bunldeIdentifier2 = `tech.metric.APNSExtension`;
     const signType = core.getInput(`signType`);
 
     const token = getToken(issuerID, 2, Buffer.from(appStoreConnectPrivateKey, "utf8"), keyID);
@@ -101,8 +101,8 @@ async function run() {
     } else {
       throw `Could not find bundleIdentifier ${bundleIdentifier} on Developer Portal. Please check it on https://developer.apple.com/account/resources/identifiers/list`;
     }
-    const bundleIdResponse2 = await get("https://api.appstoreconnect.apple.com/v1/bundleIds", { "filter[identifier]": bundleIdentifier2 }, token); // BundleIdsResponse Type
-    const bundleId2 = bundleIdResponse2.data.find(element => element.attributes.identifier == bundleIdentifier2);
+    const bundleIdResponse2 = await get("https://api.appstoreconnect.apple.com/v1/bundleIds", { "filter[identifier]": bunldeIdentifier2 }, token); // BundleIdsResponse Type
+    const bundleId2 = bundleIdResponse2.data.find(element => element.attributes.identifier == bunldeIdentifier2);
     
     if (bundleId2) {
       const profileIds = await get(`https://api.appstoreconnect.apple.com/v1/bundleIds/${bundleId.id}/relationships/profiles`, { }, token);  
