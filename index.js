@@ -109,7 +109,7 @@ async function run() {
     console.log(bundleId2);
     console.log("found responses");
     if (bundleId2) {
-      const profileIds = await get(`https://api.appstoreconnect.apple.com/v1/bundleIds/${bundleId.id}/relationships/profiles`, { }, token);  
+      const profileIds = await get(`https://api.appstoreconnect.apple.com/v1/bundleIds/${bundleId2.id}/relationships/profiles`, { }, token);  
       const rawProfileIds = profileIds.data.map(profile => profile.id);
 
       if (rawProfileIds) {
