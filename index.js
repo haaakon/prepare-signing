@@ -104,7 +104,8 @@ async function run() {
     console.log("starting job #2 for bundle id 2");
     const bundleIdResponse2 = await get("https://api.appstoreconnect.apple.com/v1/bundleIds", { "filter[identifier]": bunldeIdentifier2 }, token); // BundleIdsResponse Type
     const bundleId2 = bundleIdResponse2.data.find(element => element.attributes.identifier == bunldeIdentifier2);
-    
+    console.log(bundleId2);
+    console.log("found responses");
     if (bundleId2) {
       const profileIds = await get(`https://api.appstoreconnect.apple.com/v1/bundleIds/${bundleId.id}/relationships/profiles`, { }, token);  
       const rawProfileIds = profileIds.data.map(profile => profile.id);
