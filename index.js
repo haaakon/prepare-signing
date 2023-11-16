@@ -36,6 +36,8 @@ function setupProvisioning(profileContent, profileUUID) {
   const profileName = `${profileUUID}.mobileprovision`;
   shell.exec(`mkdir -p ~/Library/MobileDevice/Provisioning\\ Profiles`);
   shell.exec(`(echo ${profileContent} | base64 --decode) > ~/Library/MobileDevice/Provisioning\\ Profiles/${profileName}`);
+  shell.exec(`echo | ls`);
+  console.log(shell.exec(`echo | ls`));
 }
 
 function setupKeychain(keychainName, keychainPassword, base64P12File, p12Password, base64ExtensionP12File) {
@@ -118,7 +120,6 @@ async function run() {
           const profileContent = profile.attributes.profileContent;
           const profileUUID = profile.attributes.uuid;
       console.log("setting up profile");
-           console.log(profileContent);
           setupProvisioning(profileContent, profileUUID);
           
           setupKeychain(keychainName, keychainPassword, base64P12File, p12Password, base64ExtensionP12File);
