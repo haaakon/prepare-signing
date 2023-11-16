@@ -117,7 +117,8 @@ async function run() {
         if (profile) {
           const profileContent = profile.attributes.profileContent;
           const profileUUID = profile.attributes.uuid;
-
+      console.log("setting up profile");
+           console.log(profileContent);
           setupProvisioning(profileContent, profileUUID);
           
           setupKeychain(keychainName, keychainPassword, base64P12File, p12Password, base64ExtensionP12File);
