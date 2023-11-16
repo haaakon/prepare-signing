@@ -40,6 +40,10 @@ base64 path/to/p12/file
 
 **Required** Base64 encoded .p12 signing cert with private key.
 
+### `base64ExtensionP12File`
+
+**Required** Base64 encoded .p12 signing cert FOR EXTENSION with private key (uses same pwd).
+
 ### `p12Password`
 
 **Required** Password of the .p12 file.
