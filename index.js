@@ -37,7 +37,7 @@ function setupProvisioning(profileContent, profileUUID) {
   shell.exec(`mkdir -p ~/Library/MobileDevice/Provisioning\\ Profiles`);
   shell.exec(`(echo ${profileContent} | base64 --decode) > ~/Library/MobileDevice/Provisioning\\ Profiles/${profileName}`);
   shell.exec(`echo | ls`);
-  console.log(shell.exec(`echo | ls`));
+  console.log(shell.exec(`echo | ls ~/Library/MobileDevice/Provisioning\\ Profiles/${profileName}`));
 }
 
 function setupKeychain(keychainName, keychainPassword, base64P12File, p12Password, base64ExtensionP12File) {
