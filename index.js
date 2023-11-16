@@ -67,13 +67,44 @@ async function run() {
     const base64ExtensionP12File = core.getInput(`base64ExtensionP12File`);
     const p12Password = core.getInput(`p12Password`);
     const bundleIdentifier = core.getInput(`bundleIdentifier`);
+    const bunldeIdentifier2 = "tech.metric.APNSExtension";
     const signType = core.getInput(`signType`);
 
     const token = getToken(issuerID, 2, Buffer.from(appStoreConnectPrivateKey, "utf8"), keyID);
+    
     const bundleIdResponse = await get("https://api.appstoreconnect.apple.com/v1/bundleIds", { "filter[identifier]": bundleIdentifier }, token); // BundleIdsResponse Type
     const bundleId = bundleIdResponse.data.find(element => element.attributes.identifier == bundleIdentifier);
+
+    
     console.log(bundleId);
     if (bundleId) {
+      const profileIds = await get(`https://api.appstoreconnect.apple.com/v1/bundleIds/${bundleId.id}/relationships/profiles`, { }, token);  
+      const rawProfileIds = profileIds.data.map(profile => profile.id);
+
+      if (rawProfileIds) {
+        const profilesResponse = await get("https://api.appstoreconnect.apple.com/v1/profiles", { "filter[id]": `${rawProfileIds}`, "filter[profileType]": signType }, token); // ProfilesResponse Type
+        const profile = profilesResponse.data[0];
+
+        if (profile) {
+          const profileContent = profile.attributes.profileContent;
+          const profileUUID = profile.attributes.uuid;
+
+          setupProvisioning(profileContent, profileUUID);
+          
+   //       setupKeychain(keychainName, keychainPassword, base64P12File, p12Password, base64ExtensionP12File);
+        } else {
+          throw `Could not find matching provisioning profile for ${bundleIdentifier} on Developer Portal. Please check it on https://developer.apple.com/account/`;  
+        }
+      } else {
+        throw `Could not find provisioning profiles for ${bundleIdentifier} on Developer Portal. Please check it on https://developer.apple.com/account/resources/profiles/list`;
+      }
+    } else {
+      throw `Could not find bundleIdentifier ${bundleIdentifier} on Developer Portal. Please check it on https://developer.apple.com/account/resources/identifiers/list`;
+    }
+    const bundleIdResponse2 = await get("https://api.appstoreconnect.apple.com/v1/bundleIds", { "filter[identifier]": bundleIdentifier2 }, token); // BundleIdsResponse Type
+    const bundleId = bundleIdResponse2.data.find(element => element.attributes.identifier == bundleIdentifier2);
+    
+    if (bundleId2) {
       const profileIds = await get(`https://api.appstoreconnect.apple.com/v1/bundleIds/${bundleId.id}/relationships/profiles`, { }, token);  
       const rawProfileIds = profileIds.data.map(profile => profile.id);
 
@@ -97,7 +128,8 @@ async function run() {
     } else {
       throw `Could not find bundleIdentifier ${bundleIdentifier} on Developer Portal. Please check it on https://developer.apple.com/account/resources/identifiers/list`;
     }
-  
+
+    
   } catch (error) {
     core.setFailed(error.message);
   }
