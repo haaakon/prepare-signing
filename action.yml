@@ -21,6 +21,9 @@ inputs:
   base64P12File:
     description: 'Base64 encoded .p12 signing cert with private key'
     required: true
+  base64ExtensionP12File:
+    description: 'Base64 encoded .p12 signing cert with private key, for extension'
+    required: true
   p12Password:
     description: 'Password of the .p12 file'
     required: true
